@@ -1,4 +1,4 @@
-# LC-3-VM
+# LC3-VM
 
 Implementation of a LC3 Virtual Machine, with a simple Operating System, based on https://www.jmeiners.com/lc3-vm/.
 
