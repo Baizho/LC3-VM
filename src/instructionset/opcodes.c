@@ -55,7 +55,6 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
         case OP_NOT:
             uint16_t dr = (instruction >> 9) & 0x7;
             uint16_t sr1 = (instruction >> 6) & 0x7;
-
             reg[dr] = !reg[sr1];
 
             return update_flags(reg, dr);
@@ -70,12 +69,27 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
             return EXIT_SUCCESS;
         case OP_JMP:
             uint16_t baser = (instruction >> 6) & 0x7;
-
             reg[R_PC] = reg[baser];
 
             return EXIT_SUCCESS;
         case OP_JSR:
+            uint16_t bit_flag = (instruction >> 11) & 0x1;
+            reg[R_7] = reg[R_PC];
+
+            if (bit_flag) {
+                /* Executes the JSR operation*/
+                uint16_t pc_offset = sign_extend(instruction & 0x7FF, 11);
+                reg[R_PC] += pc_offset;
+            }
+            else {
+                /* Executes JSRR*/
+                uint16_t baser = (instruction >> 6) & 0x7;
+                reg[R_PC] = reg[baser];
+            }
+
+            return EXIT_SUCCESS;
         case OP_LD:
+            
         case OP_LDI:
         case OP_LEA:
         case OP_LDR:
