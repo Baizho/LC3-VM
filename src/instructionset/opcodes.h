@@ -1,6 +1,9 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
+#include "../memory/memory.h"
+#include <stdint.h>
+
 /*
     * Each instruction in the LC-3 System has an opcode which indicates 
     * which task to perform and a set of parameters which provides input

@@ -60,7 +60,16 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
 
             return update_flags(reg, dr);
         case OP_BR:
+            uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
+            uint16_t cond = (instruction >> 9) & 0x7;
+
+            if (cond & reg[R_COND]) {
+                reg[R_PC] += pc_offset;
+            }
+
+            return EXIT_SUCCESS;
         case OP_JMP:
+            
         case OP_JSR:
         case OP_LD:
         case OP_LDI:
