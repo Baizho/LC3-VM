@@ -13,6 +13,7 @@
 uint16_t memory[MEMORY_MAX];
 
 
+
 /*
     * Registers in the LC-3 ISA System. Enumeration is defined with constants 
     * whose numerical constants equal to the binary addresses of the registers
@@ -35,6 +36,16 @@ typedef enum registers {
 
 uint16_t reg[R_COUNT];
 
+
+
+/*
+    * Returns the uint16_t data from the memory location at parameter "address"
+    * @param address: uint16_t value which contains the address we want to read the data from.
+    * @param memory: the LC-3 System memory
+    * @return the uint16_t instruction or data read from memory
+*/
+
+uint16_t memory_read(uint16_t address, uint16_t* memory);
 
 
 
