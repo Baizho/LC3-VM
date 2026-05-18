@@ -1,6 +1,14 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
+/*
+    * Each instruction in the LC-3 System has an opcode which indicates 
+    * which task to perform and a set of parameters which provides input
+    * to the task being performed.
+    * There are 16 opcodes in LC-3, each instruction is 16-bits with the
+    * left 4 bits storing the opcode (the rest are for the parameters)
+*/
+
 typedef enum opcodes {
     OP_BR = 0, /* branch */
     OP_ADD,    /* add  */
