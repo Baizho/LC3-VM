@@ -28,4 +28,6 @@ typedef enum opcodes {
     OP_TRAP    /* execute trap */
 } opcodes_t;
 
+
+
 #endif // OPCODES_H
