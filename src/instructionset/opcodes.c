@@ -69,7 +69,11 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
 
             return EXIT_SUCCESS;
         case OP_JMP:
-            
+            uint16_t baser = (instruction >> 6) & 0x7;
+
+            reg[R_PC] = reg[baser];
+
+            return EXIT_SUCCESS;
         case OP_JSR:
         case OP_LD:
         case OP_LDI:
