@@ -46,4 +46,11 @@ int execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* reg, u
 */
 uint16_t opcode(uint16_t instruction);
 
+/* 
+    * Sets the condition flags defined in condflags.h after the execution of certain instruction.
+    * @param uint16_t* reg: pointer to the LC-3 emulated registers
+    * @param uint16_t r: address of the registry whose value must be checked and evaluated to perform the flags' update.
+*/
+int update_flags(uint16_t* reg, uint16_t r);
+
 #endif // OPCODES_H
