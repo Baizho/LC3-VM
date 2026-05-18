@@ -8,7 +8,6 @@
     * There are 16 opcodes in LC-3, each instruction is 16-bits with the
     * left 4 bits storing the opcode (the rest are for the parameters)
 */
-
 typedef enum opcodes {
     OP_BR = 0, /* branch */
     OP_ADD,    /* add  */
@@ -28,6 +27,23 @@ typedef enum opcodes {
     OP_TRAP    /* execute trap */
 } opcodes_t;
 
+/*
+    * Executes the given instruction as loaded in the Lc-3 System memory.
+    * @param uint16_t instruction: the 16-bit LC-3 ISA instruction
+    * @param uint16_t* memory: the LC-3 emulated memory
+    * @param uint16_t* reg: the LC-3 emulated registers
+    * @param uint8_t*: pointer to the flag signaling the end of the running program
+    * @return: EXIT_SUCCESS if the operation is successful, EXIT_FAILURE otherwise
+*/
+int execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* reg, uint8_t*);
 
+/*
+    * Parse the OPCODE from the given instruction, extracting it from the 4 most significant bits
+    * of the binary representation of the instruction.
+    * LC-3 ISA is a big-endian system, so the OPCODE is placed on the left.
+    * @param uint16_t instruction: the 16-bit LC-3 ISA instruction 
+    * @return the OPCODE of the given instruction
+*/
+uint16_t opcode(uint16_t instruction);
 
 #endif // OPCODES_H
