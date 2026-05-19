@@ -44,11 +44,15 @@ uint16_t reg[R_COUNT];
     * @param memory: the LC-3 System memory
     * @return the uint16_t instruction or data read from memory
 */
-
 uint16_t memory_read(uint16_t address, uint16_t* memory);
 
-
-
-
+/*
+    * Writes instruction or data (encoded as uint16_t type) into the memory address 'address'
+    * @param address: memory address/offset in which the instruction/data is written
+    * @param val: the actualy value to write to the memory 
+    * @param memory: the LC-3 System memory
+    @return EXIT_SUCCESS if successfuly written the data, EXIT_FAILURE otherwise
+*/
+int memory_write(uint16_t address, uint16_t val, uint16_t* memory);
 
 #endif // MEMORY_H

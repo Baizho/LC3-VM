@@ -114,6 +114,9 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
             
             return update_flags(reg, dr);
         case OP_ST:
+            uint16_t sr = (instruction >> 9) & 0x7;
+            uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
+            memory_write(R_PC + pc_offset, sr, memory);
         case OP_STI:
         case OP_STR:
         case OP_TRAP:
