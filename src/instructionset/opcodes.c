@@ -151,7 +151,22 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
                     reg[R_R0] = (uint16_t)c;
                     return update_flags(reg, R_R0);
                 case TRAP_PUTSP:
+                    uint16_t* c = memory + reg[R_R0];
+                    while(*c) {
+                        char char1 = (*c) & 0xFF;
+                        putc(char1, stdout);
+
+                        char char2 = (*c) >> 8;
+                        if (char2) putc(char2, stdout);
+                        ++ c;
+                    }
+                    fflush(stdout);
+                    return EXIT_SUCCESS;
                 case TRAP_HALT:
+                    puts("HALT");
+                    fflush(stdout);
+                    *endFLag = 0;
+                    return EXIT_SUCCESS;
             }
         case OP_RES:
         case OP_RTI:
