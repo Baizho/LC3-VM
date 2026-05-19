@@ -122,6 +122,10 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
             memory_write(memory_read(R_PC + pc_offset, memory), sr, memory);
         case OP_STR:
+            uint16_t sr = (instruction >> 9) & 0x7;
+            uint16_t baser = (instruction >> 6) & 0x7;
+            uint16_t offset = sign_extend(instruction & 0x3F, 6);
+            memory_write(baser + offset, sr, memory);
         case OP_TRAP:
         case OP_RES:
         case OP_RTI:
