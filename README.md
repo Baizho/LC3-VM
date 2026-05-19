@@ -70,6 +70,14 @@ Clean the compiled binary:
 make clean
 ```
 
+## Test
+
+Build and run the test programs:
+
+```sh
+make test
+```
+
 ## Project Layout
 
 ```text
@@ -90,6 +98,8 @@ make clean
         |-- vm.c
         `-- vm.h
 ```
+
+Test programs live in `tests/`.
 
 ## Next Steps
 
