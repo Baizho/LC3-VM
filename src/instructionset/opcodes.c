@@ -132,6 +132,9 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
                     reg[R_R0] = (uint16_t)getchar();
                     return update_flags(reg, R_R0);
                 case TRAP_OUT:
+                    putc((char)reg[R_0], stdout);
+                    fflush(stdout);
+                    return EXIT_SUCCESS;
                 case TRAP_PUTS:
                 case TRAP_IN:
                 case TRAP_PUTSP:
