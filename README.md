@@ -80,13 +80,14 @@ make clean
 |   `-- helloworld.lc3
 `-- src/
     |-- run_program.c
-    |-- instructionset/
-    |   |-- condflags.h
-    |   |-- opcodes.c
-    |   `-- opcodes.h
-    `-- memory/
-        |-- memory.c
-        `-- memory.h
+    `-- core/
+        |-- instructionset/
+        |   |-- condflags.h
+        |   |-- opcodes.c
+        |   `-- opcodes.h
+        `-- memory/
+            |-- memory.c
+            `-- memory.h
 ```
 
 ## Next Steps
