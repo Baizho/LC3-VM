@@ -2,7 +2,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*******************************************************************************
+ ******************** PRIVATE UTILITY FUNCTION DECLARATIONS ********************
+ *******************************************************************************/
+
+/*
+    * Sign-extends the given uint16_t value, shifting for a number of bits equal to
+    * the integer argument passed to this function.
+    * @param x: the value to be sign-extended
+    * @param bit_count: the number of bits used by the original immediate value
+    * @return the sign-extended value passed as uint16_t argument
+ */
 static uint16_t sign_extend(uint16_t x, int bit_count);
+
+/*******************************************************************************
+ *********************** PUBLIC FUNCTION IMPLEMENTATIONS ***********************
+ *******************************************************************************/
 
 int execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* reg, uint8_t* end_flag) {
     switch (opcode(instruction)) {
@@ -193,6 +208,10 @@ int update_flags(uint16_t* reg, uint16_t r) {
 
     return EXIT_SUCCESS;
 }
+
+/*******************************************************************************
+ ********************** PRIVATE FUNCTION IMPLEMENTATIONS ***********************
+ *******************************************************************************/
 
 static uint16_t sign_extend(uint16_t x, int bit_count) {
     if ((x >> (bit_count - 1)) & 1) {
