@@ -111,17 +111,30 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
             uint16_t sr = (instruction >> 9) & 0x7;
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
             memory_write(reg[R_PC] + pc_offset, reg[sr], memory);
+            return EXIT_SUCCESS;
         case OP_STI:
             uint16_t sr = (instruction >> 9) & 0x7;
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
             memory_write(memory_read(reg[R_PC] + pc_offset, memory), reg[sr], memory);
+            return EXIT_SUCCESS;
         case OP_STR:
             uint16_t sr = (instruction >> 9) & 0x7;
             uint16_t baser = (instruction >> 6) & 0x7;
             uint16_t offset = sign_extend(instruction & 0x3F, 6);
             memory_write(reg[baser] + offset, reg[sr], memory);
+            return EXIT_SUCCESS;
         case OP_TRAP:
+            reg[R_R7] = reg[R_PC];
+            uint16_t trapcode = instruction & 0xFF;
 
+            switch(trapcode) {
+                case TRAP_GETC:
+                case TRAP_OUT:
+                case TRAP_PUTS:
+                case TRAP_IN:
+                case TRAP_PUTSP:
+                case TRAP_HALT:
+            }
         case OP_RES:
         case OP_RTI:
         default:
