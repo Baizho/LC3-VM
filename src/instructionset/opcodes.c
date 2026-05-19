@@ -103,7 +103,14 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
 
             return update_flags(reg[dr]);
         case OP_LEA:
+            uint16_t dr = (instruction >> 9) & 0x7;
+            uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
+            
+            reg[dr] = R_PC + pc_offset;
+
+            return update_flags(reg[dr]);
         case OP_LDR:
+            
         case OP_ST:
         case OP_STI:
         case OP_STR:
