@@ -9,7 +9,7 @@
     * set to the maximum size of the LC-3 System memory hardware (65536 btis)
 */
 #define MEMORY_MAX (1 << 16) 
-uint16_t memory[MEMORY_MAX];
+extern uint16_t memory[MEMORY_MAX];
 
 /*
     * Registers in the LC-3 ISA System. Enumeration is defined with constants 
@@ -30,7 +30,7 @@ typedef enum registers {
     R_COUNT
 } registers_t;
 
-uint16_t reg[R_COUNT];
+extern uint16_t reg[R_COUNT];
 
 /*
     * Memory Mapped Registers - commonly used to interact with special hardware devices. 

@@ -1,6 +1,11 @@
 #include "memory.h"
 #include <stdlib.h>
 #include <string.h>
+#include <sys/select.h>
+#include <unistd.h>
+
+uint16_t memory[MEMORY_MAX];
+uint16_t reg[R_COUNT];
 
 /*******************************************************************************
  ******************** PRIVATE UTILITY FUNCTION DECLARATIONS ********************
@@ -12,7 +17,9 @@
     * @param x: the uint16_t type variable which we will swap 
     * @return the little-endian version of the big_endian variable
 */
-uint16_t swap16(uint16_t x);
+static uint16_t swap16(uint16_t x);
+
+static uint16_t check_key();
 
  /*******************************************************************************
  *********************** PUBLIC FUNCTION IMPLEMENTATIONS ***********************
@@ -21,11 +28,6 @@ uint16_t swap16(uint16_t x);
 uint16_t memory_read(uint16_t address, uint16_t* memory) {
     if (memory == NULL) {
         perror("Can't read from null memory reference");
-        exit(EXIT_FAILURE);
-    }
-
-    if (address < 0 || address >= MEMORY_MAX) {
-        perror("Address out of bounds from memory");
         exit(EXIT_FAILURE);
     }
 
@@ -50,6 +52,7 @@ int memory_write(uint16_t address, uint16_t val, uint16_t* memory) {
         perror("Can't write to null memory reference");
         return EXIT_FAILURE;
     }
+
     memory[address] = val;
     return EXIT_SUCCESS;
 }
@@ -59,8 +62,12 @@ int loadfile(FILE* file, uint16_t* memory) {
         perror("Can't load a file in an unitialized memory!");
         return EXIT_FAILURE;
     }
+
     uint16_t origin;
-    fread(&origin, sizeof(origin), 1, file);
+    if (fread(&origin, sizeof(origin), 1, file) != 1) {
+        perror("Unable to read image origin");
+        return EXIT_FAILURE;
+    }
     origin = swap16(origin);
 
     uint16_t* p = memory + origin;
@@ -84,15 +91,26 @@ int loadfile_from_path(const char* image_path, uint16_t* memory) {
         perror("Error in opening the file!");
         return EXIT_FAILURE;
     }
-    loadfile(file, memory);
+    int result = loadfile(file, memory);
     fclose(file);
-    return EXIT_SUCCESS;
+    return result;
 }
 
 /*******************************************************************************
  ********************** PRIVATE FUNCTION IMPLEMENTATIONS ***********************
  *******************************************************************************/
 
-uint16_t swap16(uint16_t x) {
+static uint16_t swap16(uint16_t x) {
     return (x << 8) | (x >> 8);
+}
+
+static uint16_t check_key() {
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(STDIN_FILENO, &readfds);
+
+    struct timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+    return select(1, &readfds, NULL, NULL, &timeout) != 0;
 }

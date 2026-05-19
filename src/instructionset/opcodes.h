@@ -2,6 +2,7 @@
 #define OPCODES_H
 
 #include "../memory/memory.h"
+#include "condflags.h"
 #include <stdint.h>
 
 /*

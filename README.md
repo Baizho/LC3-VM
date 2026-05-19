@@ -2,6 +2,31 @@
 
 Implementation of a LC3 Virtual Machine, with a simple Operating System, based on https://www.jmeiners.com/lc3-vm/.
 
+## Build and Run
+
+Build the VM:
+
+```sh
+make
+```
+
+Run an LC-3 object image:
+
+```sh
+./lc3 path/to/program.obj
+```
+
+You can also pass arguments through `make run`:
+
+```sh
+make run ARGS="path/to/program.obj"
+```
+
+Remove the compiled binary:
+
+```sh
+make clean
+```
 
 # Current Goals
 
