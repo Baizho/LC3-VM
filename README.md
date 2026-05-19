@@ -81,6 +81,8 @@ make clean
 `-- src/
     |-- run_program.c
     `-- core/
+        |-- vm.c
+        |-- vm.h
         |-- instructionset/
         |   |-- condflags.h
         |   |-- opcodes.c
