@@ -33,7 +33,24 @@ typedef enum registers {
 uint16_t reg[R_COUNT];
 
 /*
+    * Memory Mapped Registers - commonly used to interact with special hardware devices. 
+    * LC-3 has 2 memory mapped registers to be implemented - the keyboard status register KBSR 
+    * which indicates whether a key has been pressed and the keyboard data register KBDR which 
+    * indicates which key was pressed.
+    * Alternative to request keyboard input using GETC because that blocks execution until input is received
+    * while KBSR and KBDR allows you to the poll the state of the device and continue execution, so program
+    * stays responsive while waiting for input
+*/
+enum
+{
+    MR_KBSR = 0xFE00, /* keyboard status */
+    MR_KBDR = 0xFE02  /* keyboard data */
+};
+
+/*
     * Returns the uint16_t data from the memory location at parameter "address"
+    * It should handle the case when accessing memory mapped registers - we can't read or write
+    * to the memory array directly, so we call this getter function.
     * @param address: uint16_t value which contains the address we want to read the data from.
     * @param memory: the LC-3 System memory
     * @return the uint16_t instruction or data read from memory
