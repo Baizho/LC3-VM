@@ -55,7 +55,7 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
         case OP_NOT:
             uint16_t dr = (instruction >> 9) & 0x7;
             uint16_t sr1 = (instruction >> 6) & 0x7;
-            reg[dr] = !reg[sr1];
+            reg[dr] = ~reg[sr1];
 
             return update_flags(reg, dr);
         case OP_BR:
@@ -127,6 +127,7 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
             uint16_t offset = sign_extend(instruction & 0x3F, 6);
             memory_write(baser + offset, sr, memory);
         case OP_TRAP:
+
         case OP_RES:
         case OP_RTI:
         default:
