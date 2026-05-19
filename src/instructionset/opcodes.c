@@ -136,6 +136,13 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
                     fflush(stdout);
                     return EXIT_SUCCESS;
                 case TRAP_PUTS:
+                    uint16_t* c = memory + reg[R_R0];
+                    while(*c) {
+                        putc((char)*c, stdout);
+                        ++ c;
+                    }
+                    fflush(stdout);
+                    return EXIT_SUCCESS;
                 case TRAP_IN:
                 case TRAP_PUTSP:
                 case TRAP_HALT:
