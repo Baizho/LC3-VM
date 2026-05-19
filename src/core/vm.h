@@ -9,11 +9,11 @@
     * This struct keeps the VM memory, registers, and run flag together,
     * instead of spreading them as separate global arrays.
 */
-typedef struct lc3_vm {
+struct lc3_vm {
     uint16_t memory[MEMORY_MAX];
     uint16_t reg[R_COUNT];
     uint8_t is_running;
-} lc3_vm_t;
+};
 
 /*
     * Initializes the given LC-3 VM state.

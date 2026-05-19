@@ -18,6 +18,7 @@ included `2048.obj` demo.
 Implemented pieces:
 
 - 65,536-word LC-3 memory.
+- VM core state stored in `lc3_vm_t`.
 - General-purpose registers, program counter, and condition register.
 - Object file loading with LC-3 origin handling.
 - Instruction execution for the main LC-3 instruction set.

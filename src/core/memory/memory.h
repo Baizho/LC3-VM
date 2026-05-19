@@ -9,7 +9,6 @@
     * set to the maximum size of the LC-3 System memory hardware (65536 btis)
 */
 #define MEMORY_MAX (1 << 16) 
-extern uint16_t memory[MEMORY_MAX];
 
 /*
     * Registers in the LC-3 ISA System. Enumeration is defined with constants 
@@ -30,7 +29,7 @@ typedef enum registers {
     R_COUNT
 } registers_t;
 
-extern uint16_t reg[R_COUNT];
+typedef struct lc3_vm lc3_vm_t;
 
 /*
     * Memory Mapped Registers - commonly used to interact with special hardware devices. 
@@ -52,19 +51,19 @@ enum
     * It should handle the case when accessing memory mapped registers - we can't read or write
     * to the memory array directly, so we call this getter function.
     * @param address: uint16_t value which contains the address we want to read the data from.
-    * @param memory: the LC-3 System memory
+    * @param vm: the LC-3 System VM state
     * @return the uint16_t instruction or data read from memory
 */
-uint16_t memory_read(uint16_t address, uint16_t* memory);
+uint16_t memory_read(lc3_vm_t* vm, uint16_t address);
 
 /*
     * Writes instruction or data (encoded as uint16_t type) into the memory address 'address'
     * @param address: memory address/offset in which the instruction/data is written
     * @param val: the actualy value to write to the memory 
-    * @param memory: the LC-3 System memory
+    * @param vm: the LC-3 System VM state
     @return EXIT_SUCCESS if successfuly written the data, EXIT_FAILURE otherwise
 */
-int memory_write(uint16_t address, uint16_t val, uint16_t* memory);
+int memory_write(lc3_vm_t* vm, uint16_t address, uint16_t val);
 
 /*
     * Loads the given FILE stream into memory. File must be .obj file representing LC-3 program.
@@ -74,19 +73,19 @@ int memory_write(uint16_t address, uint16_t val, uint16_t* memory);
     * In little-endian host architecture, we must swap to big-endian structure which LC-3 supports only.
 
     * @param file: the file to be read
-    * @param memory: the LC-3 memory
+    * @param vm: the LC-3 VM state
     * @return EXIT_SUCCESS if successful, otherwise EXIT_FAILURE
 */
-int loadfile(FILE* file, uint16_t* memory);
+int loadfile(FILE* file, lc3_vm_t* vm);
 
 /*
     * Opens FILE stream from given path and loads the stream into memory as in the loadfile method.
     * @param image_path: the LC-3 program file path
-    * @param memory: the LC-3 system memory
+    * @param vm: the LC-3 system VM state
     * @return EXIT_SUCCESS if the operation is successful, EXIT_FAILURE if an error occurred into
     * opening the stream from the path, in loading the stream into memory or if the file
     * path was null
 */
-int loadfile_from_path(const char* image_path, uint16_t* memory);
+int loadfile_from_path(const char* image_path, lc3_vm_t* vm);
 
 #endif // MEMORY_H

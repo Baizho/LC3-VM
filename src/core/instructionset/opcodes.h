@@ -1,7 +1,7 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
-#include "../memory/memory.h"
+#include "../vm.h"
 #include "condflags.h"
 #include <stdint.h>
 
@@ -44,12 +44,10 @@ enum
 /*
     * Executes the given instruction as loaded in the Lc-3 System memory.
     * @param uint16_t instruction: the 16-bit LC-3 ISA instruction
-    * @param uint16_t* memory: the LC-3 emulated memory
-    * @param uint16_t* reg: the LC-3 emulated registers
-    * @param uint8_t*: pointer to the flag signaling the end of the running program
+    * @param lc3_vm_t* vm: the LC-3 VM state
     * @return: EXIT_SUCCESS if the operation is successful, EXIT_FAILURE otherwise
 */
-int execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* reg, uint8_t*);
+int execute_instruction(uint16_t instruction, lc3_vm_t* vm);
 
 /*
     * Parse the OPCODE from the given instruction, extracting it from the 4 most significant bits
@@ -62,9 +60,9 @@ uint16_t opcode(uint16_t instruction);
 
 /* 
     * Sets the condition flags defined in condflags.h after the execution of certain instruction.
-    * @param uint16_t* reg: pointer to the LC-3 emulated registers
+    * @param lc3_vm_t* vm: pointer to the LC-3 VM state
     * @param uint16_t r: address of the registry whose value must be checked and evaluated to perform the flags' update.
 */
-int update_flags(uint16_t* reg, uint16_t r);
+int update_flags(lc3_vm_t* vm, uint16_t r);
 
 #endif // OPCODES_H

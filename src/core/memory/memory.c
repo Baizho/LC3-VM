@@ -1,11 +1,9 @@
 #include "memory.h"
+#include "../vm.h"
 #include <stdlib.h>
 #include <string.h>
 #include <sys/select.h>
 #include <unistd.h>
-
-uint16_t memory[MEMORY_MAX];
-uint16_t reg[R_COUNT];
 
 /*******************************************************************************
  ******************** PRIVATE UTILITY FUNCTION DECLARATIONS ********************
@@ -25,8 +23,8 @@ static uint16_t check_key();
  *********************** PUBLIC FUNCTION IMPLEMENTATIONS ***********************
  *******************************************************************************/
 
-uint16_t memory_read(uint16_t address, uint16_t* memory) {
-    if (memory == NULL) {
+uint16_t memory_read(lc3_vm_t* vm, uint16_t address) {
+    if (vm == NULL) {
         perror("Can't read from null memory reference");
         exit(EXIT_FAILURE);
     }
@@ -35,30 +33,30 @@ uint16_t memory_read(uint16_t address, uint16_t* memory) {
     {
         if (check_key())
         {
-            memory[MR_KBSR] = (1 << 15);
-            memory[MR_KBDR] = getchar();
+            vm->memory[MR_KBSR] = (1 << 15);
+            vm->memory[MR_KBDR] = getchar();
         }
         else
         {
-            memory[MR_KBSR] = 0;
+            vm->memory[MR_KBSR] = 0;
         }
     }
 
-    return memory[address];
+    return vm->memory[address];
 }
 
-int memory_write(uint16_t address, uint16_t val, uint16_t* memory) {
-    if (memory == NULL) {
+int memory_write(lc3_vm_t* vm, uint16_t address, uint16_t val) {
+    if (vm == NULL) {
         perror("Can't write to null memory reference");
         return EXIT_FAILURE;
     }
 
-    memory[address] = val;
+    vm->memory[address] = val;
     return EXIT_SUCCESS;
 }
 
-int loadfile(FILE* file, uint16_t* memory) {
-    if (memory == NULL) {
+int loadfile(FILE* file, lc3_vm_t* vm) {
+    if (vm == NULL) {
         perror("Can't load a file in an unitialized memory!");
         return EXIT_FAILURE;
     }
@@ -70,7 +68,7 @@ int loadfile(FILE* file, uint16_t* memory) {
     }
     origin = swap16(origin);
 
-    uint16_t* p = memory + origin;
+    uint16_t* p = vm->memory + origin;
     size_t read = fread(p, sizeof(uint16_t), MEMORY_MAX - origin, file);
     
     while (read-- > 0) {
@@ -81,7 +79,7 @@ int loadfile(FILE* file, uint16_t* memory) {
     return EXIT_SUCCESS;
 }
 
-int loadfile_from_path(const char* image_path, uint16_t* memory) {
+int loadfile_from_path(const char* image_path, lc3_vm_t* vm) {
     if (image_path == NULL) {
         perror("The given file path is not valid");
         return EXIT_FAILURE;
@@ -91,7 +89,7 @@ int loadfile_from_path(const char* image_path, uint16_t* memory) {
         perror("Error in opening the file!");
         return EXIT_FAILURE;
     }
-    int result = loadfile(file, memory);
+    int result = loadfile(file, vm);
     fclose(file);
     return result;
 }
