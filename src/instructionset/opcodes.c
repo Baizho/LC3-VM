@@ -56,7 +56,6 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
             uint16_t dr = (instruction >> 9) & 0x7;
             uint16_t sr1 = (instruction >> 6) & 0x7;
             reg[dr] = ~reg[sr1];
-
             return update_flags(reg, dr);
         case OP_BR:
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
@@ -65,12 +64,11 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
             if (cond & reg[R_COND]) {
                 reg[R_PC] += pc_offset;
             }
-
+            
             return EXIT_SUCCESS;
         case OP_JMP:
             uint16_t baser = (instruction >> 6) & 0x7;
             reg[R_PC] = reg[baser];
-
             return EXIT_SUCCESS;
         case OP_JSR:
             uint16_t bit_flag = (instruction >> 11) & 0x1;
@@ -91,41 +89,37 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
         case OP_LD:
             uint16_t dr = (instruction >> 9) & 0x7;
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
-            reg[dr] = memory_read(R_PC + pc_offset, memory);
-
+            reg[dr] = memory_read(reg[R_PC] + pc_offset, memory);
             return update_flags(reg, dr);
         case OP_LDI:
             uint16_t dr = (instruction >> 9) & 0x7;
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
-            reg[dr] = memory_read(memory_read(R_PC + pc_offset, memory), memory);
-
+            reg[dr] = memory_read(memory_read(reg[R_PC] + pc_offset, memory), memory);
             return update_flags(reg, dr);
         case OP_LEA:
             uint16_t dr = (instruction >> 9) & 0x7;
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
-            reg[dr] = R_PC + pc_offset;
-
+            reg[dr] = reg[R_PC] + pc_offset;
             return update_flags(reg, dr);
         case OP_LDR:
             uint16_t dr = (instruction >> 9) & 0x7;
             uint16_t baser = (instruction >> 6) & 0x7;
             uint16_t offset = sign_extend(instruction & 0x3F, 6);
-            reg[dr] = memory_read(baser + offset, memory);
-            
+            reg[dr] = memory_read(reg[baser] + offset, memory);
             return update_flags(reg, dr);
         case OP_ST:
             uint16_t sr = (instruction >> 9) & 0x7;
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
-            memory_write(R_PC + pc_offset, sr, memory);
+            memory_write(reg[R_PC] + pc_offset, reg[sr], memory);
         case OP_STI:
             uint16_t sr = (instruction >> 9) & 0x7;
             uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
-            memory_write(memory_read(R_PC + pc_offset, memory), sr, memory);
+            memory_write(memory_read(reg[R_PC] + pc_offset, memory), reg[sr], memory);
         case OP_STR:
             uint16_t sr = (instruction >> 9) & 0x7;
             uint16_t baser = (instruction >> 6) & 0x7;
             uint16_t offset = sign_extend(instruction & 0x3F, 6);
-            memory_write(baser + offset, sr, memory);
+            memory_write(reg[baser] + offset, reg[sr], memory);
         case OP_TRAP:
 
         case OP_RES:
