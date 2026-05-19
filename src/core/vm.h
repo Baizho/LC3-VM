@@ -1,7 +1,7 @@
 #ifndef VM_H
 #define VM_H
 
-#include "memory/memory.h"
+#include "memory.h"
 #include <stdint.h>
 
 /*

@@ -1,15 +1,11 @@
-#include "core/instructionset/opcodes.h"
+#include "core/opcodes.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <signal.h>
 /* unix only */
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include <sys/types.h>
 #include <sys/termios.h>
-#include <sys/mman.h>
 
 struct termios original_tio;
 static int input_buffering_disabled = 0;
@@ -69,7 +65,7 @@ int main(int argc, const char* argv[]) {
     signal(SIGINT, handle_interrupt);
     disable_input_buffering();
 
-    while(vm.is_running) {
+    while (vm.is_running) {
         uint16_t instruction = memory_read(&vm, vm.reg[R_PC]++);
         if (execute_instruction(instruction, &vm) != 0) {
             fprintf(stderr, "Error executing instruction\n");

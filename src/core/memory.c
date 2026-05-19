@@ -1,5 +1,5 @@
 #include "memory.h"
-#include "../vm.h"
+#include "vm.h"
 #include <stdlib.h>
 #include <string.h>
 #include <sys/select.h>

@@ -3,7 +3,7 @@ CFLAGS ?= -std=c11 -Wall -Wextra -Wpedantic -g
 CPPFLAGS ?= -Isrc
 
 TARGET := lc3
-SRC := src/run_program.c src/core/vm.c src/core/memory/memory.c src/core/instructionset/opcodes.c
+SRC := src/main.c src/core/vm.c src/core/memory.c src/core/opcodes.c
 
 .PHONY: all run clean
 

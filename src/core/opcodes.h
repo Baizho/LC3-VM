@@ -1,7 +1,7 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
-#include "../vm.h"
+#include "vm.h"
 #include "condflags.h"
 #include <stdint.h>
 

@@ -80,17 +80,15 @@ make clean
 |   |-- 2048.obj
 |   `-- helloworld.lc3
 `-- src/
-    |-- run_program.c
+    |-- main.c
     `-- core/
+        |-- condflags.h
+        |-- memory.c
+        |-- memory.h
+        |-- opcodes.c
+        |-- opcodes.h
         |-- vm.c
-        |-- vm.h
-        |-- instructionset/
-        |   |-- condflags.h
-        |   |-- opcodes.c
-        |   `-- opcodes.h
-        `-- memory/
-            |-- memory.c
-            `-- memory.h
+        `-- vm.h
 ```
 
 ## Next Steps

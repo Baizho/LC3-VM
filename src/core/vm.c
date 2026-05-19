@@ -1,5 +1,5 @@
 #include "vm.h"
-#include "instructionset/condflags.h"
+#include "condflags.h"
 #include <stdlib.h>
 #include <string.h>
 
