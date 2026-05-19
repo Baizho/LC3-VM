@@ -30,6 +30,16 @@ typedef enum opcodes {
     OP_TRAP    /* execute trap */
 } opcodes_t;
 
+enum
+{
+    TRAP_GETC = 0x20,  /* get character from keyboard, not echoed onto the terminal */
+    TRAP_OUT = 0x21,   /* output a character */
+    TRAP_PUTS = 0x22,  /* output a word string */
+    TRAP_IN = 0x23,    /* get character from keyboard, echoed onto the terminal */
+    TRAP_PUTSP = 0x24, /* output a byte string */
+    TRAP_HALT = 0x25   /* halt the program */
+};
+
 /*
     * Executes the given instruction as loaded in the Lc-3 System memory.
     * @param uint16_t instruction: the 16-bit LC-3 ISA instruction
