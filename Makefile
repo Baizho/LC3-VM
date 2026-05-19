@@ -5,7 +5,7 @@ CPPFLAGS ?= -Isrc
 TARGET := lc3
 SRC := src/main.c src/core/vm.c src/core/memory.c src/core/opcodes.c
 CORE_SRC := src/core/vm.c src/core/memory.c src/core/opcodes.c
-TESTS := tests/bin/test_add tests/bin/test_branch tests/bin/test_memory
+TESTS := tests/bin/test_add tests/bin/test_branch tests/bin/test_memory tests/bin/test_logic
 
 .PHONY: all run test clean
 
@@ -31,6 +31,9 @@ tests/bin/test_branch: tests/test_branch.c tests/test.h $(CORE_SRC) | tests/bin
 
 tests/bin/test_memory: tests/test_memory.c tests/test.h $(CORE_SRC) tests/fixtures/simple.obj | tests/bin
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ tests/test_memory.c $(CORE_SRC)
+
+tests/bin/test_logic: tests/test_logic.c tests/test.h $(CORE_SRC) | tests/bin
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ tests/test_logic.c $(CORE_SRC)
 
 clean:
 	rm -f $(TARGET) $(TESTS)
