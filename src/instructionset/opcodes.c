@@ -89,7 +89,12 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
 
             return EXIT_SUCCESS;
         case OP_LD:
+            uint16_t dr = (instruction >> 9) & 0x7;
+            uint16_t pc_offset = sign_extend(instruction & 0x1FF, 9);
             
+            reg[dr] = memory_read(R_PC + pc_offset, memory);
+
+            return update_flags(reg[dr]);
         case OP_LDI:
         case OP_LEA:
         case OP_LDR:
