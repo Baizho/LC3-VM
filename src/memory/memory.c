@@ -12,6 +12,15 @@ uint16_t memory_read(uint16_t address, uint16_t* memory) {
         perror("Address out of bounds from memory");
         exit(EXIT_FAILURE);
     }
-    
+
     return memory[address];
+}
+
+int memory_write(uint16_t address, uint16_t val, uint16_t* memory) {
+    if (memory == NULL) {
+        perror("Can't write to null memory reference");
+        return EXIT_FAILURE;
+    }
+    memory[address] = val;
+    return EXIT_SUCCESS;
 }
