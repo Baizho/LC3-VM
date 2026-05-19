@@ -144,6 +144,12 @@ uint16_t execute_instruction(uint16_t instruction, uint16_t* memory, uint16_t* r
                     fflush(stdout);
                     return EXIT_SUCCESS;
                 case TRAP_IN:
+                    printf("Enter a character: ");
+                    char c = getchar();
+                    putc(c, stdout);
+                    fflush(stdout);
+                    reg[R_R0] = (uint16_t)c;
+                    return update_flags(reg, R_R0);
                 case TRAP_PUTSP:
                 case TRAP_HALT:
             }
